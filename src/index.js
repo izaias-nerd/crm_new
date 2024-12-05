@@ -16,6 +16,11 @@ app.get('/', (req, res) => {
   res.render('dashboard');
 });
 
+
+app.get('/lista', (req, res) => {
+  res.render('lista');
+});
+
 // Iniciar o servidor
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
