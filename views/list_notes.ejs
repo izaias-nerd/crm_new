@@ -4,15 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Not as</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body{
+            margin-top: 5%;
+            align-items: center;
+            text-align: center;
+           
+        }
+     /* unvisited link */
+a:link {
+  
+  text-decoration: none;
+}
+
+
+/* mouse over link */
+a:hover {
+  color: rgb(11, 7, 248);
+}
+
+/* selected link */
+a:active {
+  color: rgb(255, 38, 0);
+} 
+
+    </style>
 </head>
 <body>
-    <h1>Lista de Notas</h1>
+    <h1>Lista de Notas</h1><br><br>
+    <button><a href="/notes">Adicionar Nova Nota</a></button>
+   <button><a href="/">Voltar ao Dashboard</a></button> <br><br>
     <ul>
         <% notas.forEach(nota => { %>
             <li><%= nota %></li>
         <% }); %>
     </ul>
-    <a href="/notes">Adicionar Nova Nota</a>
-    <a href="/">Voltar ao Dashboard</a>
+    
 </body>
 </html>
