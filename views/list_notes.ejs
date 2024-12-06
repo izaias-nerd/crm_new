@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Not as</title>
+</head>
+<body>
+    <h1>Lista de Notas</h1>
+    <ul>
+        <% notas.forEach(nota => { %>
+            <li><%= nota %></li>
+        <% }); %>
+    </ul>
+    <a href="/notes">Adicionar Nova Nota</a>
+    <a href="/">Voltar ao Dashboard</a>
+</body>
+</html>

@@ -49,6 +49,9 @@
             background-color: #007bff;
         }
 
+.form{
+    margin-left: 45%;
+}
         /* Estilo do Conteúdo Principal */
         .content {
             display: flex;
@@ -174,44 +177,28 @@
         <a href="https://www.canva.com/pt_br/relatorios/modelos/" target="_blank" rel="noopener noreferrer">Relatórios</a>
         <a href="https://web.whatsapp.com/" target="_blank" rel="noopener noreferrer">Whatsapp</a>
         <a href="https://accounts.google.com/ServiceLogin?service=mail" target="_blank" rel="noopener noreferrer">E-mail</a>
-        <a href="/lista" target="_blank" rel="noopener noreferrer">Dicas</a>
+        <a href="/list" target="_blank" rel="noopener noreferrer">Dicas</a>
     </div>
+<div class="form">
+    <h1>Adicionar Nota</h1>
 
-    <!-- Conteúdo Principal -->
-    <div class="content">
-        <div class="card">
-            <img src="/assets/bipa_wallet.png" alt="Imagem do Dashboard">
-            <div class="text">
-                <p>Contribua para melhorar o projeto.</p>
-                <p>Eu uso a conta digital da Bipa para comprar Bitcoin com o Pix.</p>
-                <p>Abra sua conta usando o meu código LYETAV para ganhar até R$ 100 em Bitcoin.</p>
-                <a href="https://bipa.app/convite/LYETAV">Crie sua conta!</a><p>
-                <a href="javascript:void(0)" id="whatsapp-link">Acesse nossa loja!</a>
-            </div>
-        </div>
-    </div>
+    <form action="/add-note" method="POST">
 
+        <input type="text" name="nota" placeholder="Digite sua nota" required>
+
+        <button type="submit">Adicionar Nota</button>
+
+    </form>
+
+    <a href="/list_notes">Ver Notas</a>
+
+</div>
+<div class="notes_list">
+    
+</div>
+    
     <script>
-        // Referências aos elementos HTML
-        const hamburgerMenu = document.getElementById('hamburger-menu');
-        const sidebar = document.getElementById('sidebar');
-
-        // Função para abrir o menu
-        hamburgerMenu.addEventListener('click', () => {
-            sidebar.classList.toggle('open');
-        });
-
-        // Função para abrir o WhatsApp Business dependendo do dispositivo
-        document.getElementById('whatsapp-link').addEventListener('click', () => {
-            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-
-            // Verifica se é um dispositivo móvel
-            if (/android/i.test(userAgent) || /iPhone|iPad|iPod/i.test(userAgent)) {
-                window.location.href = "https://wa.me/c/5521966562979"; // No celular, abre o WhatsApp Business diretamente
-            } else {
-                window.open("https://web.whatsapp.com/send?phone=5521966562979", "_blank"); // No desktop, abre o WhatsApp Web
-            }
-        });
+        
     </script>
 </body>
 </html>
