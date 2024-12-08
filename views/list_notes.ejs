@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Not as</title>
+    <title>Lista Notas</title>
     <style>
         * {
             margin: 0;
@@ -34,17 +34,193 @@ a:active {
   color: rgb(255, 38, 0);
 } 
 
+ /* Estilo do menu lateral */
+ .sidebar {
+            background-color: #2c3e50;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: -250px; /* Inicialmente fora da tela */
+            width: 250px;
+            z-index: 100;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            transition: left 0.3s ease;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            color: #ecf0f1;
+            margin-bottom: 30px;
+        }
+
+        .sidebar a {
+            color: #ecf0f1;
+            text-decoration: none;
+            padding: 8px;
+            text-align: center;
+            margin: 5px 0;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #007bff;
+        }
+
+        /* Estilo do Conteúdo Principal */
+        .content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+            margin-left: 250px; /* Espaço para o menu lateral */
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Estilo do Card */
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 600px;  /* Limite máximo de largura */
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Estilo da Imagem dentro do Card */
+        .card img {
+            width: 100%;
+            max-width: 200px; /* Limita a largura da imagem */
+            /*margin-bottom: 10px;*/
+        }
+
+        /* Estilo do Texto */
+        .text {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        /* Link no card */
+        .text a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .text a:hover {
+            text-decoration: underline;
+        }
+
+        /* Efeito de Hover no Card */
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Ícone do Hambúrguer */
+        .hamburger-menu {
+            display: none;
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .hamburger-menu .bar {
+            width: 30px;
+            height: 4px;
+            background-color: #333;
+            margin: 6px 0;
+            transition: 0.4s;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -250px; /* Inicialmente fora da tela */
+            }
+
+            .sidebar.open {
+                left: 0; /* Menu aberto */
+            }
+
+            .hamburger-menu {
+                display: block; /* Exibe o ícone hamburguer */
+            }
+
+            .content {
+                margin-left: 0; /* Quando o menu estiver aberto, o conteúdo vai ocupar toda a tela */
+            }
+        }
+
+        /* Estilo para Desktop */
+        @media (min-width: 769px) {
+            .sidebar {
+                left: 0; /* Menu visível em desktops */
+            }
+
+            .content {
+                margin-left: 250px; /* Espaço para o menu lateral */
+            }
+
+            .hamburger-menu {
+                display: none; /* Esconde o hamburguer no desktop */
+            }
+        }
+
     </style>
 </head>
 <body>
+    <!-- Ícone de Hambúrguer -->
+    <div class="hamburger-menu" id="hamburger-menu">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+
+    <!-- Menu Lateral -->
+    <div class="sidebar" id="sidebar">
+        <h2>Lista Notas</h2>
+        <a href="/" target="_blank" rel="noopener noreferrer">Dashboard</a>
+        <a href="https://accounts.google.com/InteractiveLogin/signinchooser?continue=https%3A%2F%2Fdocs.google.com%2Fspreadsheets%2Fu%2F2%2Fcreate%3Fusp%3Dsheets_home%26ths%3Dtrue&followup=https%3A%2F%2Fdocs.google.com%2Fspreadsheets%2Fu%2F2%2Fcreate%3Fusp%3Dsheets_home%26ths%3Dtrue&ltmpl=sheets&osid=1&passive=1209600&service=wise&ifkv=AcMMx-dnC-JryQprFuVNq08Xdm9z6h9le-g02bk3Aa3g1bndORQmhEuJ6QDVB_4HXyJLIklT2xyh&ddm=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin" target="_blank" rel="noopener noreferrer">Clientes</a>
+        <a href="https://slack.com/intl/pt-br/get-started#/createnew" target="_blank" rel="noopener noreferrer">Slack</a>
+        <a href="https://www.canva.com/pt_br/relatorios/modelos/" target="_blank" rel="noopener noreferrer">Relatórios</a>
+        <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">Facebook</a>
+        <a href="https://br.pinterest.com/login" target="_blank" rel="noopener noreferrer">Pinterest</a>
+        <a href="https://web.whatsapp.com/" target="_blank" rel="noopener noreferrer">Whatsapp</a>
+        <a href="/links" target="_blank" rel="noopener noreferrer">Links</a>
+        <a href="https://www.instagram.com/accounts/login/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://www.tiktok.com/login" target="_blank" rel="noopener noreferrer">Tictok</a>
+        <a href="https://x.com/" target="_blank" rel="noopener noreferrer">x.com</a>
+        <a href="https://accounts.google.com/ServiceLogin?service=mail" target="_blank" rel="noopener noreferrer">E-mail</a>
+        <a href="/list" target="_blank" rel="noopener noreferrer">Dicas</a>
+    </div>
     <h1>Lista de Notas</h1><br><br>
     <button><a href="/notes">Adicionar Nova Nota</a></button>
    <button><a href="/">Voltar ao Dashboard</a></button> <br><br>
-    <ul>
-        <% notas.forEach(nota => { %>
-            <li><%= nota %></li>
-        <% }); %>
-    </ul>
     
+<ul>
+    <% if (notas.length > 0) { %>  <!-- Verifica se há notas -->
+        <% notas.forEach(nota => { %>
+            <li>
+                <%= nota.nota %>  <!-- Exibe o texto da nota -->
+                <!-- Botão para excluir -->
+                <form action="/delete-note/<%= nota.id %>" method="POST" style="display:inline;">
+                    <button type="submit">Excluir</button>
+                </form>
+            </li>
+        <% }); %>
+    <% } else { %>
+        <p>Nenhuma nota disponível.</p> <!-- Exibe mensagem caso não haja notas -->
+    <% } %>
+</ul>
 </body>
 </html>
