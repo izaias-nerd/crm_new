@@ -1,50 +1,61 @@
 // src/index.js
 const express = require('express');
 const path = require('path');
+const { createServer } = require('node:http');
+const { Server } = require('socket.io');
 const { lerNotas, salvarNotas } = require('./notes'); // Importando as funções
 const { v4: uuidv4 } = require('uuid');
+const { initSocketIO } = require('./socket');
+
+// Inicializando o app e o servidor
+
 const app = express();
 const PORT = process.env.PORT || 3000;
+const server = createServer(app);
+const io = new Server(server); // Inicializando o Socket.IO com o servidor HTTP
 
-app.use(express.urlencoded({ extended: true })); // Já está configurado, mas verifique
-app.use(express.json()); // Adiciona suporte ao corpo JSON
+// Configuração de middlewares
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-
-// Configuração para arquivos estáticos (como imagens, CSS, JS)
+// Configuração para arquivos estáticos (CSS, JS, imagens)
 app.use(express.static(path.join(__dirname, '../public')));
-app.use(express.urlencoded({ extended: true })); // Para processar dados do formulário
 
 // Configuração do mecanismo de visualização
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../views'));
 
-// Rota para o dashboard
+
+
+// Inicializa o Socket.IO
+initSocketIO(io);
+
+// Rotas
 app.get('/', (req, res) => {
   res.render('dashboard');
 });
 
-// Rota para exibir a lista de páginas
 app.get('/list', (req, res) => {
   res.render('list');
 });
 
-// Rota para exibir as notas
 app.get('/notes', (req, res) => {
   res.render('notes');
 });
 
-// Rota para links
 app.get('/links', (req, res) => {
   res.render('links');
 });
 
-// Rota para exibir todas as notas
 app.get('/list_notes', (req, res) => {
   const notas = lerNotas(); // Lê as notas do arquivo
   res.render('list_notes', { notas }); // Passa as notas para a visualização
 });
 
-// Rota para adicionar uma nova nota
+app.get('/chat', (req, res) => {
+  res.render('chat');
+});
+
 app.post('/add-note', (req, res) => {
   const novaNota = req.body.nota;
 
@@ -59,23 +70,21 @@ app.post('/add-note', (req, res) => {
   notas.push({ id: notesId, nota: novaNota }); // Adiciona a nova nota como objeto
   salvarNotas(notas); // Salva as notas atualizadas
 
-  res.redirect('/list_notes'); // Redireciona para a página principal
+  res.redirect('/list_notes'); // Redireciona para a página de notas
 });
 
-// Rota para excluir uma nota
 app.post('/delete-note/:id', (req, res) => {
-  const notaId = req.params.id;  // Pega o ID da nota da URL
-  let notas = lerNotas();  // Lê as notas existentes
+  const notaId = req.params.id; // Pega o ID da nota da URL
+  let notas = lerNotas(); // Lê as notas existentes
 
   // Filtra as notas, removendo a nota com o ID correspondente
   notas = notas.filter(nota => nota.id !== notaId);
 
-  salvarNotas(notas);  // Salva as notas atualizadas no arquivo JSON
-
-  res.redirect('/list_notes');  // Redireciona para a lista de notas
+  salvarNotas(notas); // Salva as notas atualizadas no arquivo JSON
+  res.redirect('/list_notes'); // Redireciona para a lista de notas
 });
 
 // Iniciar o servidor
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
