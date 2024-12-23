@@ -1,14 +1,11 @@
-# crm_new
+# Crm_new
 
 minimal crm
 
 ## Instruções de Uso
-Para clonar o projeto : `git clone <url do projeto>`
+Para clonar o projeto : `git clone https://github.com/izaias-nerd/crm_new.git` <br>
 Para instalar as dependencias use o comando: ` npm install` <br>
 Este projeto contém uma página com links de navegação, incluindo links para o WhatsApp e outras funcionalidades. <br> 
-Siga as instruções abaixo para configurar o seu navegador.
-
-Para melhorar a sua produtividade ao clicar nos links eles abrirão em uma nova aba sempre.
 
 ## Dúvidas ou Problemas
 
@@ -19,4 +16,4 @@ Se você estiver enfrentando dificuldades para configurar seu navegador ou se os
 [Teste aqui](https://crm-new-iusv.onrender.com) 
 <br>
 
-Obrigado por utilizar nosso serviço!
+Obrigado!.
