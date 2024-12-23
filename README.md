@@ -3,7 +3,8 @@
 minimal crm
 
 ## Instruções de Uso
-
+Para clonar o projeto : `git clone <url do projeto>`
+Para instalar as dependencias use o comando: ` npm install` <br>
 Este projeto contém uma página com links de navegação, incluindo links para o WhatsApp e outras funcionalidades. <br> 
 Siga as instruções abaixo para configurar o seu navegador.
 
