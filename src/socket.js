@@ -1,30 +1,41 @@
 const { v4: uuidv4 } = require('uuid');
 
-const clients = {}; // Objeto para armazenar os clientes conectados
+const registeredUsers = new Set(); // Conjunto para armazenar usuários registrados
 
 // Função para inicializar o Socket.IO
 function initSocketIO(io) {
   io.on('connection', (socket) => {
-    const clientId = uuidv4(); // Gera um ID único para o cliente
-    clients[socket.id] = clientId; // Associa o ID ao socket.id
-    console.log(`Cliente conectado: ${clientId}`);
+    let username = null; // Armazena o nome do usuário associado ao socket
+    console.log(`Cliente conectado: ${socket.id}`);
 
-    // Envia o ID do cliente para ele
-    socket.emit('clientId', clientId);
+    // Registro do usuário
+    socket.on('register', (name) => {
+      const trimmedName = name.trim();
+      if (trimmedName) {
+        username = trimmedName;
+        registeredUsers.add(username);
+        console.log(`Usuário registrado: ${username}`);
+      } else {
+        socket.emit('error', 'Nome inválido para registro.');
+      }
+    });
 
-    // Lida com mensagens de chat
+    // Verificação ao enviar mensagens
     socket.on('chat message', (msg) => {
-      const clientId = clients[socket.id];
-      console.log(`Mensagem de ${clientId}: ${msg}`);
-
-      // Envia a mensagem e o ID do cliente para todos os conectados
-      io.emit('chat message', { clientId, msg });
+      if (!username || !registeredUsers.has(username)) {
+        socket.emit('error', 'Você não está registrado.');
+        return;
+      }
+      console.log(`Mensagem de ${username} (${socket.id}): ${msg}`);
+      io.emit('chat message', { username, msg }); // Envia a mensagem para todos os conectados
     });
 
     // Lida com a desconexão do cliente
     socket.on('disconnect', () => {
-      console.log(`Cliente desconectado: ${clients[socket.id]}`);
-      delete clients[socket.id]; // Remove o cliente do objeto
+      console.log(`Cliente desconectado: ${username || socket.id}`);
+      if (username) {
+        registeredUsers.delete(username); // Remove o usuário registrado
+      }
     });
   });
 }

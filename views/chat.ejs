@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -15,6 +16,8 @@
     </style>
   </head>
   <body>
+    <input id="username" placeholder="Digite seu nome" required />
+    <button id="register">Registrar</button>
     <ul id="messages"></ul>
     <form id="form" action="">
       <input id="input" autocomplete="off" /><button>Send</button>
@@ -25,25 +28,40 @@
       const form = document.getElementById('form');
       const input = document.getElementById('input');
       const messages = document.getElementById('messages');
-      let clientId;
-
-      // Recebe o ID do cliente do servidor
-      socket.on('clientId', (id) => {
-        clientId = id;
-        console.log(`Meu ID: ${clientId}`);
+      const registerBtn = document.getElementById('register');
+      const usernameInput = document.getElementById('username');
+  
+      let isRegistered = false; // Variável para controlar o registro do usuário
+  
+      // Função para enviar o nome ao servidor
+      registerBtn.addEventListener('click', () => {
+        const username = usernameInput.value.trim();
+        if (username) {
+          socket.emit('register', username);
+          console.log(`Usuário registrado: ${username}`);
+          isRegistered = true; // Marca o usuário como registrado
+          usernameInput.style.display = 'none';
+          registerBtn.style.display = 'none';
+        } else {
+          alert('Por favor, insira um nome válido.');
+        }
       });
-
-      // Escuta mensagens do servidor
-      socket.on('chat message', ({ clientId, msg }) => {
+  
+      // Recebe mensagens do servidor
+      socket.on('chat message', ({ username, msg }) => {
         const item = document.createElement('li');
-        item.textContent = `${clientId}: ${msg}`;
+        item.textContent = `${username}: ${msg}`;
         messages.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
       });
-
+  
       // Envia mensagens ao servidor
       form.addEventListener('submit', (e) => {
         e.preventDefault();
+        if (!isRegistered) {
+          alert('Você precisa se registrar antes de enviar mensagens.');
+          return;
+        }
         if (input.value) {
           socket.emit('chat message', input.value);
           input.value = '';
@@ -51,4 +69,5 @@
       });
     </script>
   </body>
+  
 </html>
