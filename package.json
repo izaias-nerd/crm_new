@@ -8,7 +8,7 @@
     "dev": "nodemon src/index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "izaias de oliveira elias",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -23,5 +23,13 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.7"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/izaias-nerd/crm_new.git"
+  },
+  "bugs": {
+    "url": "https://github.com/izaias-nerd/crm_new/issues"
+  },
+  "homepage": "https://github.com/izaias-nerd/crm_new#readme"
 }

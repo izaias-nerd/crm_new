@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" href="#" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Crm New</title>
+  <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+  <script src="/src/socket.js"></script>
+</head>
+<body>
+  <div>
+    <h1>Bem vindo ao atendimento Crm New</h1>
+    <div id="form-usuario">
+      <input type="text" id="nome-usuario" placeholder="Seu nome aqui">
+      <button onclick="entrarNaFila()">Entrar na Fila</button>
+    </div>
+    <div id="fila">
+      <h2>Fila de espera</h2>
+      <ul id="lista-fila">
+
+      </ul>
+    </div>
+  </div>
+  <script>
+    const socket = io();
+    const listaFila = document.getElementById('lista-fila');
+
+    function entrarNaFila(){
+      const nomeUsuario = document.getElementById('nome-usuario').value;
+      socket.emit('entrarNaFila', {nome: nomeUsuario});
+    }
+    
+    socket.on('atualizarFila', (fila) =>{
+      listaFila.innerHTML = '';
+      fila.forEach((usuario) => {
+        const li = document.createElement('li');
+        li.textContent = usuario.nome;
+        listaFila.appendChild(li);
+      });
+    });
+
+    socket.on('iniciarAtendimento', (data) =>{
+      alert('Você está sendo atendido por ${data.atendente?.nome || data.usuario.nome}');
+    });
+
+  </script>
+</body>
+</html>

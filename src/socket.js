@@ -1,43 +1,25 @@
-const { v4: uuidv4 } = require('uuid');
+// src/socket.js
+const { Server } = require('socket.io');
 
-const registeredUsers = new Set(); // Conjunto para armazenar usuários registrados
+function initSocketIO(server) {
+  const io = new Server(server); // Inicializa o Socket.IO com o servidor HTTP
+io.on('connection', (socket) => {
+  console.log('Um usuário se conectou');
 
-// Função para inicializar o Socket.IO
-function initSocketIO(io) {
-  io.on('connection', (socket) => {
-    let username = null; // Armazena o nome do usuário associado ao socket
-    console.log(`Cliente conectado: ${socket.id}`);
-
-    // Registro do usuário
-    socket.on('register', (name) => {
-      const trimmedName = name.trim();
-      if (trimmedName) {
-        username = trimmedName;
-        registeredUsers.add(username);
-        console.log(`Usuário registrado: ${username}`);
-      } else {
-        socket.emit('error', 'Nome inválido para registro.');
-      }
-    });
-
-    // Verificação ao enviar mensagens
-    socket.on('chat message', (msg) => {
-      if (!username || !registeredUsers.has(username)) {
-        socket.emit('error', 'Você não está registrado.');
-        return;
-      }
-      console.log(`Mensagem de ${username} (${socket.id}): ${msg}`);
-      io.emit('chat message', { username, msg }); // Envia a mensagem para todos os conectados
-    });
-
-    // Lida com a desconexão do cliente
-    socket.on('disconnect', () => {
-      console.log(`Cliente desconectado: ${username || socket.id}`);
-      if (username) {
-        registeredUsers.delete(username); // Remove o usuário registrado
-      }
-    });
+  socket.on('register', (username) => {
+    socket.username = username; // guarda username no socket
+    console.log(`Usuário registrado: ${username}`);
   });
+
+  socket.on('chat message', (msg) => {
+    io.emit('chat message', { username: socket.username || 'Anon', msg });
+  });
+
+  socket.on('disconnect', () => {
+    console.log('Um usuário se desconectou');
+  });
+});
+    return io; // Retorna a instância do Socket.IO
 }
 
 module.exports = { initSocketIO };

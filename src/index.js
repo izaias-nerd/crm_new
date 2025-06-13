@@ -2,17 +2,17 @@
 const express = require('express');
 const path = require('path');
 const { createServer } = require('node:http');
-const { Server } = require('socket.io');
 const { lerNotas, salvarNotas } = require('./notes'); // Importando as funções
 const { v4: uuidv4 } = require('uuid');
-const { initSocketIO } = require('./socket');
+const { initSocketIO } = require('./socket'); // Importando a função initSocketIO
 
 // Inicializando o app e o servidor
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 const server = createServer(app);
-const io = new Server(server); // Inicializando o Socket.IO com o servidor HTTP
+
+// Inicializa o Socket.IO
+const io = initSocketIO(server); // Passa o servidor HTTP para a função initSocketIO
 
 // Configuração de middlewares
 app.use(express.urlencoded({ extended: true }));
@@ -24,11 +24,6 @@ app.use(express.static(path.join(__dirname, '../public')));
 // Configuração do mecanismo de visualização
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../views'));
-
-
-
-// Inicializa o Socket.IO
-initSocketIO(io);
 
 // Rotas
 app.get('/', (req, res) => {
